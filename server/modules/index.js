@@ -1,15 +1,17 @@
 const { getConfig } = require("../core/config");
 
 // Simple module registry: to add a new module, add one entry here.
-// The "hotel-booking" module isn't built yet (that's Phase 2) - once its
-// route files exist, uncomment the entry below.
 const MODULE_MAP = {
-  // "hotel-booking": {
-  //   roomRoutes: "./hotel-booking/room.routes",
-  //   bookingRoutes: "./hotel-booking/booking.routes",
-  //   nav: "./hotel-booking/nav",
-  //   mountPath: "/api/hotel-booking",
-  // },
+  "hotel-booking": {
+    routes: {
+      rooms: "./hotel-booking/room.routes",
+      guests: "./hotel-booking/guest.routes",
+      payments: "./hotel-booking/payment.routes",
+      bookings: "./hotel-booking/booking.routes",
+    },
+    nav: "./hotel-booking/nav",
+    mountPath: "/api/hotel-booking",
+  },
 };
 
 // Mounts every enabled module's routes on the Express app, and returns
@@ -25,12 +27,9 @@ function loadModules(app) {
       return;
     }
 
-    if (entry.roomRoutes) {
-      app.use(`${entry.mountPath}/rooms`, require(entry.roomRoutes));
-    }
-    if (entry.bookingRoutes) {
-      app.use(`${entry.mountPath}/bookings`, require(entry.bookingRoutes));
-    }
+    Object.entries(entry.routes || {}).forEach(([key, routePath]) => {
+      app.use(`${entry.mountPath}/${key}`, require(routePath));
+    });
 
     const nav = require(entry.nav);
     combinedNav = combinedNav.concat(nav);
