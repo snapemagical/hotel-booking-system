@@ -9,10 +9,16 @@ import Profile from "./core/pages/Profile.jsx";
 import AuditLogPage from "./core/pages/AuditLogPage.jsx";
 import NotFound from "./core/pages/NotFound.jsx";
 
-// Phase 1: core-only routes. The hotel-booking module's pages (Rooms,
-// Bookings, Guests, Payments) get imported and added here in Phase 2,
-// the same way library-books' pages are wired into the reference project's
-// App.jsx.
+import RoomListPage from "./modules/hotel-booking/ui/RoomListPage.jsx";
+import RoomFormPage from "./modules/hotel-booking/ui/RoomFormPage.jsx";
+import GuestListPage from "./modules/hotel-booking/ui/GuestListPage.jsx";
+import GuestFormPage from "./modules/hotel-booking/ui/GuestFormPage.jsx";
+import PaymentListPage from "./modules/hotel-booking/ui/PaymentListPage.jsx";
+import PaymentFormPage from "./modules/hotel-booking/ui/PaymentFormPage.jsx";
+import BookingListPage from "./modules/hotel-booking/ui/BookingListPage.jsx";
+import BookingFormPage from "./modules/hotel-booking/ui/BookingFormPage.jsx";
+import BookingEditPage from "./modules/hotel-booking/ui/BookingEditPage.jsx";
+import MyBookingsPage from "./modules/hotel-booking/ui/MyBookingsPage.jsx";
 
 export default function App() {
   const [config, setConfig] = useState(null);
@@ -42,7 +48,107 @@ export default function App() {
                   }
                 />
 
-                {/* hotel-booking module routes land here in Phase 2 */}
+                {/* hotel-booking module routes */}
+                <Route path="/rooms" element={<RoomListPage />} />
+                <Route
+                  path="/rooms/new"
+                  element={
+                    <ProtectedRoute allowedRoles={["frontdesk"]}>
+                      <RoomFormPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/rooms/:id/edit"
+                  element={
+                    <ProtectedRoute allowedRoles={["frontdesk"]}>
+                      <RoomFormPage />
+                    </ProtectedRoute>
+                  }
+                />
+
+                <Route
+                  path="/guests"
+                  element={
+                    <ProtectedRoute allowedRoles={["frontdesk"]}>
+                      <GuestListPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/guests/new"
+                  element={
+                    <ProtectedRoute allowedRoles={["frontdesk"]}>
+                      <GuestFormPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/guests/:id/edit"
+                  element={
+                    <ProtectedRoute allowedRoles={["frontdesk"]}>
+                      <GuestFormPage />
+                    </ProtectedRoute>
+                  }
+                />
+
+                <Route
+                  path="/payments"
+                  element={
+                    <ProtectedRoute allowedRoles={["frontdesk"]}>
+                      <PaymentListPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/payments/new"
+                  element={
+                    <ProtectedRoute allowedRoles={["frontdesk"]}>
+                      <PaymentFormPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/payments/:id/edit"
+                  element={
+                    <ProtectedRoute allowedRoles={["frontdesk"]}>
+                      <PaymentFormPage />
+                    </ProtectedRoute>
+                  }
+                />
+
+                <Route
+                  path="/bookings"
+                  element={
+                    <ProtectedRoute allowedRoles={["frontdesk"]}>
+                      <BookingListPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/bookings/new"
+                  element={
+                    <ProtectedRoute allowedRoles={["frontdesk", "guest"]}>
+                      <BookingFormPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/bookings/:id/edit"
+                  element={
+                    <ProtectedRoute allowedRoles={["frontdesk"]}>
+                      <BookingEditPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/my-bookings"
+                  element={
+                    <ProtectedRoute allowedRoles={["guest"]}>
+                      <MyBookingsPage />
+                    </ProtectedRoute>
+                  }
+                />
 
                 <Route path="*" element={<NotFound />} />
               </Routes>
