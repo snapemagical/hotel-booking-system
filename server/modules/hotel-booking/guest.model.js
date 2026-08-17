@@ -1,0 +1,13 @@
+const mongoose = require("mongoose");
+
+const guestSchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true, trim: true },
+    email: { type: String, required: true, trim: true, lowercase: true },
+    phone: { type: String, required: true, trim: true },
+    idNumber: { type: String, required: true, trim: true }, // passport / govt ID reference
+  },
+  { timestamps: true }
+);
+
+module.exports = mongoose.model("Guest", guestSchema);
